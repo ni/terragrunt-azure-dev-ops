@@ -1,7 +1,7 @@
 {
     "manifestVersion": 1,
     "id": "Terragrunt",
-    "publisher": "OtaconEngineering",
+    "publisher": "ni",
     "version": "0.0.9",
     "name": "Install Terragrunt",
     "description": "Installs terragrunt",
@@ -37,11 +37,8 @@
     ],
     "repository": {
         "type": "git",
-        "uri": "https://github.com/jabba2324/terragrunt-azure-dev-ops"
+        "uri": "https://github.com/ni/terragrunt-azure-dev-ops"
     },
     "links": {
-        "terragrunt": {
-            "uri": "https://github.com/gruntwork-io/terragrunt"
-        }
     }
 }

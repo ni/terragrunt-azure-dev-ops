@@ -34,12 +34,12 @@
     "satisfies": ["Install Terragrunt"],
     "demands": [],
     "execution": {
-        "Node": {
+        "Node16": {
             "target": "index.js"
         }
     },
     "repository": {
         "type": "git",
-        "uri": "https://github.com/cdesewell/terragrunt-azure-dev-ops"
+        "uri": "https://github.com/ni/terragrunt-azure-dev-ops"
     }
 }
