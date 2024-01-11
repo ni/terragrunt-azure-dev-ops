@@ -2,7 +2,7 @@
     "manifestVersion": 1,
     "id": "Terragrunt",
     "publisher": "ni",
-    "version": "0.0.9",
+    "version": "0.0.10",
     "name": "Install Terragrunt",
     "description": "Installs terragrunt",
     "public": false,
