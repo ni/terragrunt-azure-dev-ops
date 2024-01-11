@@ -1,45 +1,39 @@
 {
-    "id": "54438fa5-9e77-48ba-bd00-a1a20fd2811b",
-    "name": "Install Terragrunt",
-    "friendlyName": "Install Terragrunt",
-    "description": "Installs terragrunt for Linux, Darwin & Windows",
-    "helpMarkDown": "https://github.com/gruntwork-io/terragrunt",
-    "category": "Tool",
-    "author": "Otacon Engineering",
-    "visibility": [
-        "Build",
-        "Release"
-    ],
-    "runsOn": [
-        "Agent",
-        "DeploymentGroup"
-    ],
-    "version": {
-        "Major": 0,
-        "Minor": 1,
-        "Patch": 0
-    },
-    "minimumAgentVersion": "1.95.0",
-    "instanceNameFormat": "Install Terragrunt",
-    "inputs": [
-        {
-            "name": "terragruntversion",
-            "type": "string",
-            "label": "Version",
-            "defaultValue": "0.25.5",
-            "required": true,
-            "helpMarkDown": "Enter the version of terragrunt to install eg 0.25.5"
-        }
-    ],
-    "satisfies": ["Install Terragrunt"],
-    "demands": [],
-    "execution": {
-        "Node16": {
-            "target": "index.js"
-        }
-    },
-    "repository": {
-        "type": "git",
-        "uri": "https://github.com/ni/terragrunt-azure-dev-ops"
+  "id": "54438fa5-9e77-48ba-bd00-a1a20fd2811b",
+  "name": "Install Terragrunt",
+  "friendlyName": "Install Terragrunt",
+  "description": "Installs terragrunt for Linux, Darwin & Windows",
+  "helpMarkDown": "https://github.com/gruntwork-io/terragrunt",
+  "category": "Tool",
+  "author": "Otacon Engineering",
+  "visibility": ["Build", "Release"],
+  "runsOn": ["Agent", "DeploymentGroup"],
+  "version": {
+    "Major": 0,
+    "Minor": 1,
+    "Patch": 5
+  },
+  "minimumAgentVersion": "1.95.0",
+  "instanceNameFormat": "Install Terragrunt",
+  "inputs": [
+    {
+      "name": "terragruntversion",
+      "type": "string",
+      "label": "Version",
+      "defaultValue": "0.25.5",
+      "required": true,
+      "helpMarkDown": "Enter the version of terragrunt to install eg 0.25.5"
     }
+  ],
+  "satisfies": ["Install Terragrunt"],
+  "demands": [],
+  "execution": {
+    "Node16": {
+      "target": "index.js"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "uri": "https://github.com/ni/terragrunt-azure-dev-ops"
+  }
 }

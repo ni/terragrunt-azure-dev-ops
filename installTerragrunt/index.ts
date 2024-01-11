@@ -5,7 +5,7 @@ import fs = require('fs');
 import path = require('path');
 
 const isWindows = os.type().match(/^Win/);
-const terragruntToolName = "terraform";
+const terragruntToolName = "terragrunt";
 
 async function run() {
     console.log("Starting Download")
@@ -14,13 +14,15 @@ async function run() {
         console.log(`Selected version: ${versionNumber}`)
         const extension = os.platform() === 'win32' ? '.exe': '';
 
-        const downloadUrl = downloadLink(versionNumber, os.platform(), os.arch(), extension);
+        let cached = toolLib.findLocalTool(terragruntToolName, versionNumber);
+        if (!cached) {
 
-        const downloaded: string = await toolLib.downloadTool(downloadUrl);
+            const downloadUrl = downloadLink(versionNumber, os.platform(), os.arch(), extension);
 
-        const cached: string = await toolLib.cacheFile(downloaded,`terragrunt${extension}`,`terragrunt`, versionNumber);
+            const downloaded: string = await toolLib.downloadTool(downloadUrl);
 
-        toolLib.prependPath(cached);
+            cached = await toolLib.cacheFile(downloaded,`terragrunt${extension}`,`terragrunt`, versionNumber);
+        }
 
         let terragruntPath = findTerragruntExecutable(cached);
         if (!terragruntPath) {
@@ -30,6 +32,8 @@ async function run() {
         if (!isWindows) {
             fs.chmodSync(terragruntPath, "777");
         }
+        
+        toolLib.prependPath(cached);
 
         taskLib.setResult(taskLib.TaskResult.Succeeded, 'Terragrunt has been installed at ' + terragruntPath);
         
@@ -41,7 +45,7 @@ async function run() {
 
 const getVersion = function(): string {
     const versionNumber = taskLib.getInput('terragruntversion', true);
-
+    
     if (versionNumber) {
         return versionNumber;
     } else {
@@ -67,7 +71,7 @@ const downloadLink = function(version: string, os: string, arch: string, extensi
 function findTerragruntExecutable(rootFolder: string): string {
     let terragruntPath = path.join(rootFolder, terragruntToolName + getExecutableExtension());
     var allPaths = taskLib.find(rootFolder);
-    var matchingResultFiles = taskLib.match(allPaths, terragruntPath, rootFolder);
+    var matchingResultFiles = taskLib.match(allPaths, terragruntPath);
     return matchingResultFiles[0];
 }
 
