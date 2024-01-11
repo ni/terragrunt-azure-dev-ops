@@ -1,6 +1,11 @@
 import taskLib = require('azure-pipelines-task-lib/task');
 import toolLib = require('azure-pipelines-tool-lib/tool');
 import os = require('os');
+import fs = require('fs');
+import path = require('path');
+
+const isWindows = os.type().match(/^Win/);
+const terragruntToolName = "terraform";
 
 async function run() {
     console.log("Starting Download")
@@ -17,7 +22,16 @@ async function run() {
 
         toolLib.prependPath(cached);
 
-        taskLib.setResult(taskLib.TaskResult.Succeeded, 'Terragrunt has been installed.');
+        let terragruntPath = findTerragruntExecutable(cached);
+        if (!terragruntPath) {
+            throw new Error(taskLib.loc("TerragruntNotFoundInFolder", cached));
+        }
+
+        if (!isWindows) {
+            fs.chmodSync(terragruntPath, "777");
+        }
+
+        taskLib.setResult(taskLib.TaskResult.Succeeded, 'Terragrunt has been installed at ' + terragruntPath);
         
     }
     catch (err: any) {
@@ -48,6 +62,22 @@ const downloadLink = function(version: string, os: string, arch: string, extensi
         
     // Add linux and MacOS to this.
     return `https://github.com/gruntwork-io/terragrunt/releases/download/v${version}/terragrunt_${os}_${arch}${extension}`;
+}
+
+function findTerragruntExecutable(rootFolder: string): string {
+    let terragruntPath = path.join(rootFolder, terragruntToolName + getExecutableExtension());
+    var allPaths = taskLib.find(rootFolder);
+    var matchingResultFiles = taskLib.match(allPaths, terragruntPath, rootFolder);
+    return matchingResultFiles[0];
+}
+
+function getExecutableExtension(): string {
+    if (isWindows) {
+        return ".exe";
+    }
+
+    return "";
+
 }
 
 run();
